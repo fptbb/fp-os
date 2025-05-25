@@ -48,6 +48,10 @@ To switch an existing `bootc`-compatible system to this image (or to update it):
 ```bash
 sudo bootc switch --ostree-remote=ghcr ghcr.io/fptbb/fp-os:latest
 ```
+If you want to change branding on startup after the reabse, run this:
+```bash
+rpm-ostree initramfs --enable --reboot
+```
 Then reboot. To check the status: `sudo bootc status`.
 An ISO can also be built (see building section) which uses a kickstart (`iso.toml`) to automatically rebase to this image upon installation.
 
