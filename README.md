@@ -46,7 +46,7 @@ Website: [os.fpt.icu](https://os.fpt.icu)
 
 To switch an existing `bootc`-compatible system to this image (or to update it):
 ```bash
-sudo bootc switch --ostree-remote=ghcr ghcr.io/fptbb/fp-os:latest
+sudo bootc switch ghcr.io/fptbb/fp-os:latest
 ```
 If you want to change branding on startup after the reabse, run this:
 ```bash
