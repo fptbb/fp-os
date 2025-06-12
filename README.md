@@ -63,6 +63,7 @@ This project wouldn't be what it is without the inspiration and code from variou
 *   [**astrovm/amyos**](https://github.com/astrovm/amyos)
 *   [**m2Giles/m2os**](https://github.com/m2Giles/m2os)
 *   [**ublue-os/bazzite**](https://github.com/ublue-os/bazzite)
+*   [**filotimo-project/filotimo**](https://github.com/filotimo-project/filotimo)
 
 ## <picture><img src="https://fonts.gstatic.com/s/e/notoemoji/latest/1f4c4/webp/emoji_u1f4c4.webp" alt="📄" width="22" height="22"></picture> License
 
