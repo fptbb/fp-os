@@ -19,7 +19,7 @@ dnf5 config-manager addrepo --id="nordvpn" \
     --set=enabled=1 \
     --overwrite
 
-dnf5 config-manager addrepo --from-repofile=https://pkgs.tailscale.com/stable/fedora/tailscale.repo
+dnf5 config-manager addrepo --from-repofile=https://pkgs.tailscale.com/stable/fedora/tailscale.repo --overwrite
 
 # enable_copr some/coprrepo
 enable_copr  bigjapka/VeraCrypt
