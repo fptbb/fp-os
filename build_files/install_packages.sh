@@ -11,6 +11,8 @@ dnf5 install -y \
     gnome-calculator \
     powerline-fonts \
     veracrypt \
-    nordvpn
+    nordvpn \
+    tailscale
 
 systemctl enable nordvpnd
+systemctl enable tailscaled
