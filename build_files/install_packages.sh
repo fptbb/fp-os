@@ -12,7 +12,8 @@ dnf5 install -y \
     powerline-fonts \
     veracrypt \
     nordvpn \
-    tailscale
+    tailscale \
+    bash-completion
 
 systemctl enable nordvpnd
 systemctl enable tailscaled
