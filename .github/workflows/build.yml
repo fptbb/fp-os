@@ -1,24 +1,25 @@
 ---
-name: Build Fp OS image
+name: Build container image
 on:
   pull_request:
     branches:
       - main
   schedule:
-    - cron: "12 13 * * *" # 13:12am UTC everyday
+    - cron: '05 10 * * *'  # 10:05am UTC everyday
   push:
     branches:
       - main
     paths-ignore:
-      - "**/README.md"
+      - '**/README.md'
   workflow_dispatch:
 
 env:
-  IMAGE_NAME: "${{ github.event.repository.name }}" # the name of the image produced by this build, matches repo names
   IMAGE_DESC: "${{ github.event.repository.description }}"
-  IMAGE_REGISTRY: "ghcr.io/${{ github.repository_owner }}" # do not edit
-  ARTIFACTHUB_LOGO_URL: "https://raw.githubusercontent.com/Fptbb/fp-os/refs/heads/main/system_files/usr/share/pixmaps/fp-logo.png" # You should put your own image here so that you get a fancy profile image on https://artifacthub.io/!
-  SET_X: 1
+  IMAGE_KEYWORDS: "bootc,ublue,universal-blue"
+  IMAGE_LOGO_URL: "https://raw.githubusercontent.com/Fptbb/fp-os/refs/heads/main/system_files/usr/share/pixmaps/fp-logo.png"  # Put your own image here for a fancy profile on https://artifacthub.io/!
+  IMAGE_NAME: "${{ github.event.repository.name }}"  # output image name, usually same as repo name
+  IMAGE_REGISTRY: "ghcr.io/${{ github.repository_owner }}"  # do not edit
+  DEFAULT_TAG: "latest"
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref || github.run_id }}-${{ inputs.brand_name}}-${{ inputs.stream_name }}
@@ -35,19 +36,27 @@ jobs:
       id-token: write
 
     steps:
+      - name: Prepare environment
+        run: |
+          # Lowercase the image uri
+          echo "IMAGE_REGISTRY=${IMAGE_REGISTRY,,}" >> ${GITHUB_ENV}
+          echo "IMAGE_NAME=${IMAGE_NAME,,}" >> ${GITHUB_ENV}
+
       # These stage versions are pinned by https://github.com/renovatebot/renovate
-      - name: Checkout repository
+      - name: Checkout
         uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4
 
-      - name: Install ORAS
-        id: install_oras
-        uses: oras-project/setup-oras@8d34698a59f5ffe24821f0b48ab62a3de8b64b20 # v1.2.3
-
+      # This is optional, but if you see that your builds are way too big for the runners, you can enable this by uncommenting the following lines:
+      # - name: Maximize build space
+      #   uses: ublue-os/remove-unwanted-software@517622d6452028f266b7ba4cc9a123b5f58a6b53 # v7
+      #   with:
+      #     remove-codeql: true
+      
       - name: Get current date
         id: date
         run: |
           # This generates a timestamp like what is defined on the ArtifactHub documentation
-          # E.g: 2022-02-08T15:38:15Z'
+          # E.G: 2022-02-08T15:38:15Z'
           # https://artifacthub.io/docs/topics/repositories/container-images/
           # https://linux.die.net/man/1/date
           echo "date=$(date -u +%Y\-%m\-%d\T%H\:%M\:%S\Z)" >> $GITHUB_OUTPUT
@@ -59,10 +68,10 @@ jobs:
         id: metadata
         with:
           # This generates all the tags for your image, you can add custom tags here too!
-          # By default, it should generate "latest" and "latest.(date here)".
+          # Default tags are "$DEFAULT_TAG" and "$DEFAULT_TAG.$date".
           tags: |
-            type=raw,value=latest
-            type=raw,value=latest.{{date 'YYYYMMDD'}}
+            type=raw,value=${{ env.DEFAULT_TAG }}
+            type=raw,value=${{ env.DEFAULT_TAG }}.{{date 'YYYYMMDD'}}
             type=raw,value={{date 'YYYYMMDD'}}
             type=sha,enable=${{ github.event_name == 'pull_request' }}
             type=ref,event=pr
@@ -75,11 +84,11 @@ jobs:
             org.opencontainers.image.title=${{ env.IMAGE_NAME }}
             org.opencontainers.image.url=https://github.com/${{ github.repository_owner }}/${{ env.IMAGE_NAME }}
             org.opencontainers.image.vendor=${{ github.repository_owner }}
-            org.opencontainers.image.version=latest
+            org.opencontainers.image.version=${{ env.DEFAULT_TAG }}.{{date 'YYYYMMDD'}}
             io.artifacthub.package.deprecated=false
-            io.artifacthub.package.keywords=bootc,ublue,universal-blue
+            io.artifacthub.package.keywords=${{ env.IMAGE_KEYWORDS }}
             io.artifacthub.package.license=Apache-2.0
-            io.artifacthub.package.logo-url=${{ env.ARTIFACTHUB_LOGO_URL }}
+            io.artifacthub.package.logo-url=${{ env.IMAGE_LOGO_URL }}
             io.artifacthub.package.prerelease=false
             io.artifacthub.package.maintainers=[{"name":"Lucas Oliveira","email":"lucas@fptbb.com"}]
             containers.bootc=1
@@ -99,6 +108,30 @@ jobs:
           labels: ${{ steps.metadata.outputs.labels }}
           oci: false
 
+      # Rechunk is a script that we use on Universal Blue to make sure there isnt a single huge layer when your image gets published.
+      # This does not make your image faster to download, just provides better resumability and fixes a few errors.
+      # Documentation for Rechunk is provided on their github repository at https://github.com/hhd-dev/rechunk
+      # You can enable it by uncommenting the following lines:
+      # - name: Run Rechunker
+      #   id: rechunk
+      #   uses: hhd-dev/rechunk@f153348d8100c1f504dec435460a0d7baf11a9d2 # v1.1.1
+      #   with:
+      #     rechunk: 'ghcr.io/hhd-dev/rechunk:v1.0.1'
+      #     ref: "localhost/${{ env.IMAGE_NAME }}:${{ env.DEFAULT_TAG }}"
+      #     prev-ref: "${{ env.IMAGE_REGISTRY }}/${{ env.IMAGE_NAME }}:${{ env.DEFAULT_TAG }}"
+      #     skip_compression: true
+      #     version: ${{ env.CENTOS_VERSION }}
+      #     labels: ${{ steps.metadata.outputs.labels }} # Rechunk strips out all the labels during build, this needs to be reapplied here with newline separator
+
+      # This is necessary so that the podman socket can find the rechunked image on its storage
+      # - name: Load in podman and tag
+      #   run: |
+      #     IMAGE=$(podman pull ${{ steps.rechunk.outputs.ref }})
+      #     sudo rm -rf ${{ steps.rechunk.outputs.output }}
+      #     for tag in ${{ steps.metadata.outputs.tags }}; do
+      #       podman tag $IMAGE ${{ env.IMAGE_NAME }}:$tag
+      #     done
+
       # These `if` statements are so that pull requests for your custom images do not make it publish any packages under your name without you knowing
       # They also check if the runner is on the default branch so that things like the merge queue (if you enable it), are going to work
       - name: Login to GitHub Container Registry
@@ -109,53 +142,6 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      # Workaround bug where capital letters in your GitHub username make it impossible to push to GHCR.
-      # https://github.com/macbre/push-to-ghcr/issues/12
-      - name: Lowercase Registry
-        id: registry_case
-        uses: ASzc/change-string-case-action@d0603cd0a7dd490be678164909f65c7737470a7f # v6
-        with:
-          string: ${{ env.IMAGE_REGISTRY }}
-
-      - name: Lowercase Image
-        id: image_case
-        uses: ASzc/change-string-case-action@d0603cd0a7dd490be678164909f65c7737470a7f # v6
-        with:
-          string: ${{ env.IMAGE_NAME }}
-
-      - name: Login to GitHub Container Registry (ORAS)
-        id: oras_ghcr_login
-        if: github.event_name != 'pull_request' && github.ref == format('refs/heads/{0}', github.event.repository.default_branch)
-        run: |
-          echo ${{ secrets.GITHUB_TOKEN }} | oras login ghcr.io --username ${{ github.actor }} --password-stdin
-
-      - name: Publish Artifact Hub Manifest
-        id: publish_ah_manifest
-        if: github.event_name != 'pull_request' && github.ref == format('refs/heads/{0}', github.event.repository.default_branch)
-        run: |
-          oras push \
-            ghcr.io/${{ steps.registry_case.outputs.lowercase }}/${{ steps.image_case.outputs.lowercase }}:artifacthub.io \
-            --config /dev/null:application/vnd.cncf.artifacthub.config.v1+yaml \
-            artifacthub-repo.yml:application/vnd.cncf.artifacthub.repository-metadata.layer.v1.yaml
-
-      - name: Install Cosign
-        uses: sigstore/cosign-installer@3454372f43399081ed03b604cb2d021dabca52bb # v3.8.2
-        if: github.event_name != 'pull_request' && github.ref == format('refs/heads/{0}', github.event.repository.default_branch)
-
-      # Verify the container image and if it fails, we just don't push this at all
-      # Something is up and we need to manually check
-      - name: Verify upstream container image
-        if: github.event_name != 'pull_request' && github.ref == format('refs/heads/{0}', github.event.repository.default_branch)
-        shell: bash
-        run: |
-          set -oue pipefail
-          echo "Get upstream image tag"
-          image=$(grep -i '^FROM.*:\S*' "./Containerfile" | awk '{print $2}')
-          echo "Using Cosign to verify image"
-          cosign verify \
-            --key ./build_files/ublue.pub \
-            "${image}"
-
       - name: Push To GHCR
         uses: redhat-actions/push-to-registry@5ed88d269cf581ea9ef6dd6806d01562096bee9c # v2
         if: github.event_name != 'pull_request' && github.ref == format('refs/heads/{0}', github.event.repository.default_branch)
@@ -164,18 +150,24 @@ jobs:
           REGISTRY_USER: ${{ github.actor }}
           REGISTRY_PASSWORD: ${{ github.token }}
         with:
-          registry: ${{ steps.registry_case.outputs.lowercase }}
-          image: ${{ steps.image_case.outputs.lowercase }}
+          registry: ${{ env.IMAGE_REGISTRY }}
+          image: ${{ env.IMAGE_NAME }}
           tags: ${{ steps.metadata.outputs.tags }}
           username: ${{ env.REGISTRY_USER }}
           password: ${{ env.REGISTRY_PASSWORD }}
 
-      # Signing container image so anyone and ourselves can easily verify its authenticity
-      # for future updates.
+      # This section is optional and only needs to be enabled if you plan on distributing
+      # your project for others to consume. You will need to create a public and private key
+      # using Cosign and save the private key as a repository secret in Github for this workflow
+      # to consume. For more details, review the image signing section of the README.
+      - name: Install Cosign
+        uses: sigstore/cosign-installer@3454372f43399081ed03b604cb2d021dabca52bb # v3.8.2
+        if: github.event_name != 'pull_request' && github.ref == format('refs/heads/{0}', github.event.repository.default_branch)
+
       - name: Sign container image
         if: github.event_name != 'pull_request' && github.ref == format('refs/heads/{0}', github.event.repository.default_branch)
         run: |
-          IMAGE_FULL="${{ steps.registry_case.outputs.lowercase }}/${{ steps.image_case.outputs.lowercase }}"
+          IMAGE_FULL="${{ env.IMAGE_REGISTRY }}/${{ env.IMAGE_NAME }}"
           for tag in ${{ steps.metadata.outputs.tags }}; do
             cosign sign -y --key env://COSIGN_PRIVATE_KEY $IMAGE_FULL:$tag
           done
