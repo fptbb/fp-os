@@ -14,7 +14,8 @@ dnf5 install -y \
     nordvpn \
     tailscale \
     bash-completion \
-    libpcap
+    libpcap \
+    telnet
 
 systemctl enable nordvpnd
 systemctl enable tailscaled
