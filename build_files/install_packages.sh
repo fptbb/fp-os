@@ -13,7 +13,8 @@ dnf5 install -y \
     veracrypt \
     nordvpn \
     tailscale \
-    bash-completion
+    bash-completion \
+    libpcap
 
 systemctl enable nordvpnd
 systemctl enable tailscaled
