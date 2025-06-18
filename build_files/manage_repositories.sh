@@ -32,7 +32,6 @@ dnf5 config-manager addrepo --id="code" \
     --set=enabled=1 \
     --set=gpgcheck=1 \
     --set=gpgkey="https://packages.microsoft.com/keys/microsoft.asc" \
-    --set=autorefresh=1 \
     --set=type="rpm-md" \
     --overwrite
 
