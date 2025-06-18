@@ -15,7 +15,8 @@ dnf5 install -y \
     tailscale \
     bash-completion \
     libpcap \
-    telnet
+    telnet \
+    code # ms-vscode from repo at @manage_repositories
 
 systemctl enable nordvpnd
 systemctl enable tailscaled
