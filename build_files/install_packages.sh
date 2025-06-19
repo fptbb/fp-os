@@ -17,7 +17,8 @@ dnf5 install -y \
     libpcap \
     telnet \
     code \
-    hexchat
+    hexchat \
+    buildah
 
 systemctl enable nordvpnd
 systemctl enable tailscaled
