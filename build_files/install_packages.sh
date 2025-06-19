@@ -18,7 +18,8 @@ dnf5 install -y \
     telnet \
     code \
     hexchat \
-    buildah
+    buildah \
+    hyprland
 
 systemctl enable nordvpnd
 systemctl enable tailscaled
