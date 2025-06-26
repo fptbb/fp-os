@@ -20,7 +20,9 @@ dnf5 install -y \
     hexchat \
     buildah \
     hyprland \
-    yadm
+    yadm \
+    git \
+    gnupg2
 
 systemctl enable nordvpnd
 systemctl enable tailscaled
