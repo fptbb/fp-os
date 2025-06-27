@@ -22,7 +22,13 @@ dnf5 install -y \
     hyprland \
     yadm \
     git \
-    gnupg2
+    gnupg2 \
+    curl \
+    dialog \
+    freerdp \
+    iproute \
+    libnotify \
+    nmap-ncat
 
 systemctl enable nordvpnd
 systemctl enable tailscaled
