@@ -19,7 +19,6 @@ dnf5 install -y \
     code \
     hexchat \
     buildah \
-    hyprland \
     yadm \
     git \
     gnupg2 \
@@ -28,7 +27,8 @@ dnf5 install -y \
     freerdp \
     iproute \
     libnotify \
-    nmap-ncat
+    nmap-ncat \
+    kde-partitionmanager
 
 systemctl enable nordvpnd
 systemctl enable tailscaled
