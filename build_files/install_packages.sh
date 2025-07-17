@@ -27,8 +27,8 @@ dnf5 install -y \
     freerdp \
     iproute \
     libnotify \
-    nmap-ncat \
-    kde-partitionmanager
+    kde-partitionmanager \
+    coreos-installer
 
 systemctl enable nordvpnd
 systemctl enable tailscaled
