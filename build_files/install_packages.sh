@@ -30,7 +30,8 @@ dnf5 install -y \
     kde-partitionmanager \
     coreos-installer \
     netcat \
-    nmap-ncat
+    nmap-ncat \
+    freerdp
 
 systemctl enable nordvpnd
 systemctl enable tailscaled
