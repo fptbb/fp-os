@@ -29,7 +29,8 @@ dnf5 install -y \
     libnotify \
     kde-partitionmanager \
     coreos-installer \
-    netcat
+    netcat \
+    nmap-ncat
 
 systemctl enable nordvpnd
 systemctl enable tailscaled
