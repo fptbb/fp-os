@@ -14,15 +14,11 @@ dnf5 install -y \
     nordvpn \
     tailscale \
     bash-completion \
-    libpcap \
-    telnet \
     code \
-    hexchat \
     buildah \
     yadm \
     git \
     gnupg2 \
-    curl \
     dialog \
     freerdp \
     iproute \
