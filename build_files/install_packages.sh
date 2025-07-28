@@ -27,7 +27,10 @@ dnf5 install -y \
     coreos-installer \
     netcat \
     nmap-ncat \
-    freerdp
+    freerdp \
+    golang \
+    tinygo \
+    upx
 
 systemctl enable nordvpnd
 systemctl enable tailscaled
