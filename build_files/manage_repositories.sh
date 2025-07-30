@@ -21,6 +21,9 @@ dnf5 config-manager addrepo --id="nordvpn" \
 ### Add Tailscale repo
 dnf5 config-manager addrepo --from-repofile=https://pkgs.tailscale.com/stable/fedora/tailscale.repo --overwrite
 
+### Add Cloudflare repo
+dnf5 config-manager addrepo --from-repofile=https://pkg.cloudflareclient.com/cloudflare-warp-ascii.repo --overwrite
+
 ### Add Yadm repo from OpenSUSE infra
 dnf5 config-manager addrepo --from-repofile="https://download.opensuse.org/repositories/home:TheLocehiliosan:yadm/Fedora_${RELEASE}/home:TheLocehiliosan:yadm.repo" --overwrite
 
