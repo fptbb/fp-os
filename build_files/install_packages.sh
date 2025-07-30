@@ -30,7 +30,8 @@ dnf5 install -y \
     freerdp \
     golang \
     tinygo \
-    upx
+    upx \
+    cloudflare-warp
 
 systemctl enable nordvpnd
 systemctl enable tailscaled
