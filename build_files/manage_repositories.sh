@@ -32,7 +32,7 @@ dnf5 config-manager addrepo --id="nordvpn" \
 dnf5 config-manager addrepo --from-repofile=https://pkgs.tailscale.com/stable/fedora/tailscale.repo --overwrite
 
 ### Add Netbird, alternative to Tailscale
-sudo tee /etc/yum.repos.d/netbird.repo <<'EOF'
+tee /etc/yum.repos.d/netbird.repo <<'EOF'
 [NetBird]
 name=NetBird
 baseurl=https://pkgs.netbird.io/yum/
