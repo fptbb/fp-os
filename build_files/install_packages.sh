@@ -30,7 +30,10 @@ dnf5 install -y \
     freerdp \
     golang \
     tinygo \
-    upx
+    upx \
+    netbird \
+    netbird-ui
 
 systemctl enable nordvpnd
 systemctl enable tailscaled
+systemctl enable netbird
