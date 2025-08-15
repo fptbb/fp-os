@@ -24,6 +24,7 @@ dnf5 install -y \
     iproute \
     libnotify \
     kde-partitionmanager \
+    gameconqueror \
     coreos-installer \
     netcat \
     nmap-ncat \
