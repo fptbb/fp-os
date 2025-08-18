@@ -33,7 +33,9 @@ dnf5 install -y \
     tinygo \
     upx \
     netbird \
-    netbird-ui
+    netbird-ui \
+    kde-gtk-config \
+    breeze-gtk
 
 systemctl enable nordvpnd
 systemctl enable tailscaled
