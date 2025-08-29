@@ -23,6 +23,7 @@ dnf5 install -y \
     freerdp \
     iproute \
     libnotify \
+    libpcap \
     kde-partitionmanager \
     gameconqueror \
     coreos-installer \
