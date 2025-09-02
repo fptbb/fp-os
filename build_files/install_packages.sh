@@ -1,0 +1,43 @@
+#!/bin/bash
+set -ouex pipefail
+
+# this installs a package from fedora repos
+dnf5 install -y \
+    tmux \
+    kleopatra \
+    gnome-disk-utility \
+    kitty \
+    zsh \
+    gnome-calculator \
+    powerline-fonts \
+    veracrypt \
+    nordvpn \
+    tailscale \
+    bash-completion \
+    code \
+    buildah \
+    yadm \
+    git \
+    gnupg2 \
+    dialog \
+    freerdp \
+    iproute \
+    libnotify \
+    libpcap \
+    kde-partitionmanager \
+    gameconqueror \
+    coreos-installer \
+    netcat \
+    nmap-ncat \
+    freerdp \
+    golang \
+    tinygo \
+    upx \
+    netbird \
+    netbird-ui
+
+
+
+systemctl enable nordvpnd
+systemctl enable tailscaled
+systemctl enable netbird
