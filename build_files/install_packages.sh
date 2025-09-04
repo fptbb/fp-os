@@ -3,41 +3,43 @@ set -ouex pipefail
 
 # this installs a package from fedora repos
 dnf5 install -y \
-    tmux \
+    yadm \
     kleopatra \
-    gnome-disk-utility \
-    kitty \
-    zsh \
-    gnome-calculator \
-    powerline-fonts \
     veracrypt \
+    tor \
     nordvpn \
     tailscale \
+    netbird \
+    netbird-ui \
+    gnome-disk-utility \
+    gnome-calculator \
+    kde-partitionmanager \
+    tmux \
+    kitty \
+    zsh \
+    powerline-fonts \
     bash-completion \
     code \
     buildah \
-    yadm \
     git \
     gnupg2 \
+    golang \
+    tinygo \
+    upx \
     dialog \
     freerdp \
     iproute \
     libnotify \
     libpcap \
-    kde-partitionmanager \
-    gameconqueror \
-    coreos-installer \
     netcat \
     nmap-ncat \
     freerdp \
-    golang \
-    tinygo \
-    upx \
-    netbird \
-    netbird-ui
+    gameconqueror \
+    coreos-installer
 
 
 
 systemctl enable nordvpnd
 systemctl enable tailscaled
 systemctl enable netbird
+systemctl enable tor
