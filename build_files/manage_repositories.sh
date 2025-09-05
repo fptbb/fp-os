@@ -54,6 +54,7 @@ EOF
 ### Add COPR repos
 # enable_copr some/coprrepo
 enable_copr bigjapka/VeraCrypt
+enable_copr psygreg/linuxtoys
 
 ### Add OpenSUSE Build Service repos
 # enable_opensuse_bs where:some:repo

@@ -35,7 +35,8 @@ dnf5 install -y \
     nmap-ncat \
     freerdp \
     gameconqueror \
-    coreos-installer
+    coreos-installer \
+    linuxtoys
 
 
 
