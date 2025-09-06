@@ -36,7 +36,9 @@ dnf5 install -y \
     freerdp \
     gameconqueror \
     coreos-installer \
-    linuxtoys
+    linuxtoys \
+    android-tools \
+    pmbootstrap
 
 
 
