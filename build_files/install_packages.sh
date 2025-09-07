@@ -38,7 +38,10 @@ dnf5 install -y \
     coreos-installer \
     linuxtoys \
     android-tools \
-    pmbootstrap
+    pmbootstrap \
+    yt-dlp \
+    fuse-encfs \
+    megatools
 
 
 
