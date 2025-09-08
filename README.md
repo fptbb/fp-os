@@ -1,67 +1,97 @@
 # <img src="system_files/usr/share/pixmaps/fp-logo.png" alt="Fp OS Logo" width="45" valign="middle"/> Fp OS
 
-This is my personalized setup for **Fp OS**, a custom version of Bazzite (Fedora Kinoite + KDE Plasma + Nvidia). It's tailored specifically for **my own use** and this document is mostly a reminder for myself on how things work and how to manage it.
-
-**⚠️ Disclaimer: This project is highly personalized for myself (Fptbb) own use and workflow. It includes specific configurations (like modified application providers with pre-set client IDs) and branding tailored to my preferences. It is published publicly primarily as a reference, for my own amusement, or for others to see an example of a custom `bootc` image. It is NOT recommended for direct installation or use by others unless you are comfortable with these personalizations or plan to fork and modify it extensively. You have been warned!**
-
 [![Build Status](https://github.com/Fptbb/fp-os/actions/workflows/build.yml/badge.svg)](https://github.com/Fptbb/fp-os/actions/) [![Artifact Hub](https://img.shields.io/endpoint?url=https://artifacthub.io/badge/repository/fp-os)](https://artifacthub.io/packages/container/fp-os/fp-os)
 
-Website: [os.fpt.icu](https://os.fpt.icu)
+**Website: [os.fpt.icu](https://os.fpt.icu)**
 
 ---
 
-## <picture><img src="https://fonts.gstatic.com/s/e/notoemoji/latest/1f4a1/webp/emoji_u1f4a1.webp" alt="💡" width="22" height="22"></picture> Core Idea
+## Introduction
 
-*   **Base:** `ghcr.io/ublue-os/bazzite-dx-nvidia-open:stable`. This gives me Fedora Kinoite (KDE Plasma) with all the Bazzite gaming goodies, Developer Experience (DX) tools, and Nvidia drivers pre-installed.
-*   **Immutable:** Uses `bootc` and `ostree` for a stable, predictable, and robust system.
-*   **My Customizations:** I've added personal branding, a few specific system tweaks, and my preferred default Flatpaks.
-*   **Flatpak First:** Most apps I use are installed via Flatpak. The base image modifications are for things that can't be easily Flatpak'd or require system-level configurations.
+Welcome to Fp OS! This project is a customized, bootable OS image based on [Bazzite](https://bazzite.gg/) (a Fedora KDE variant), built using the [Universal Blue image template](https://github.com/ublue-os/image-template).
 
-## <picture><img src="https://fonts.gstatic.com/s/e/notoemoji/latest/1f9f0/webp/emoji_u1f9f0.webp" alt="🧰" width="22" height="22"></picture> What's Inside (My Custom Bits)
+While this is my personal daily driver OS, tailored to my specific workflow and preferences, it's also publicly available as a learning resource or a starting point for your own custom OS image. You can see how certain customizations are made, fork the project to suit your needs, or just draw inspiration for your own builds.
 
-*   **Custom Branding:**
-    *   **KDE "About System":** Shows "Fp OS - Bazzite Edition" with my logo ([`fp-logo.png`](system_files/usr/share/pixmaps/fp-logo.png)) and a link to [os.fpt.icu](https://os.fpt.icu) (defined in `system_files/etc/xdg/kcm-about-distrorc`).
-    *   **Wallpapers:** Custom default desktop and lockscreen wallpapers located in `system_files/usr/share/backgrounds/fp-os/`.
-    *   **MOTD:** The "Message of the Day" in the terminal is customized to "Fp OS Bazzite Edition" and includes a fun, foxy tip (`system_files/usr/share/ublue-os/motd/bazzite.md` and `system_files/usr/share/ublue-os/motd/tips/40-fptbb.md`).
+**Disclaimer:** This project includes personal branding and specific configurations that may not be suitable for everyone. It is recommended to review the customizations before use.
 
-*   **KDE Google Account Tweaks:**
-    *   The `system_files/usr/share/accounts/providers/kde/google.provider` file is modified. This is to fix Google Drive Integration with KDE, primarily because Google's default setup can be problematic. This file includes specific OAuth client details.
+## Core Concept
 
-*   **Default Flatpaks (installed by `build.sh` via `repo_files/flatpaks` in addition to Bazzite's defaults):**
-    *   `com.bitwarden.desktop` (Bitwarden)
-    *   `com.dec05eba.gpu_screen_recorder` (GPU Screen Recorder)
-    *   `com.spotify.Client` (Spotify)
-    *   `com.vysp3r.ProtonPlus` (ProtonPlus)
-    *   `dev.vencord.Vesktop` (Vesktop for Discord)
-    *   `io.missioncenter.MissionCenter` (Mission Center)
-    *   `app.zen_browser.zen` (Zen Browser)
-    *   `org.gimp.GIMP` (GIMP)
-    *   `org.mozilla.Thunderbird` (Thunderbird)
-    *   `org.telegram.desktop` (Telegram Desktop)
-    *   `org.vinegarhq.Sober` (Sober)
-    *   `org.vinegarhq.Vinegar` (Vinegar)
-    *   `rest.insomnia.Insomnia` (Insomnia)
+*   **Base Image:** `ghcr.io/ublue-os/bazzite-dx-nvidia:stable`. This provides a solid foundation of Fedora Kinoite (KDE Plasma) with Bazzite's gaming enhancements, developer experience tools, and pre-installed Nvidia drivers.
+*   **Immutable & Atomic:** Leveraging `bootc` and `ostree`, the system is reliable, predictable, and robust. Updates are atomic, and you can easily roll back to previous versions.
+*   **Customized:** The base image is augmented with personal branding, system tweaks, additional packages, and my preferred set of Flatpaks.
+*   **Flatpak-centric:** Most applications are intended to be installed as Flatpaks. The base image modifications are for tools, system-level configurations, and packages that are not suitable for Flatpak.
 
-## <picture><img src="https://fonts.gstatic.com/s/e/notoemoji/latest/23ea/webp/emoji_u23ea.webp" alt="⏪" width="22" height="22"></picture> How to Rebase to This
+## Features & Customizations
 
-To switch an existing `bootc`-compatible system to this image (or to update it):
+Here's a summary of what makes Fp OS unique:
+
+### Branding
+*   **KDE "About System":** Displays "Fp OS - Bazzite Edition" with a custom logo and a link to the project website (configured in `system_files/etc/xdg/kcm-about-distrorc`).
+*   **Wallpapers:** Custom default desktop and lockscreen wallpapers are included.
+*   **MOTD:** A custom "Message of the Day" is shown in the terminal.
+*   **OS Info:** The `/usr/lib/os-release` file is updated with Fp OS branding.
+
+### System-Level Changes & Additions
+*   **Google Account Fix:** The KDE Google Account provider is modified to improve Google Drive integration.
+*   **Enabled Services:** The following services are enabled by default: `nordvpnd`, `tailscaled`, `netbird`, and `podman.socket`.
+*   **Disabled Services:** `NetworkManager-wait-online.service` is disabled to speed up boot times.
+
+### Included RPM Packages
+In addition to the standard Bazzite set, a variety of packages are installed for development (VS Code, Go, buildah), networking (NordVPN, Tailscale, Netbird), system utilities (yadm, kitty, zsh), and many more.
+
+### Default Flatpaks
+Comes with a curated selection of default applications including Bitwarden, Spotify, Vesktop (a Discord client), GIMP, Thunderbird, Mission Center, and many more. To be installed on the first start by the system.
+
+## How to Use
+
+You can switch an existing `bootc`-compatible system (like Fedora, Bazzite, or Bluefin) to this image.
+
+**Rebase Command:**
 ```bash
 sudo rpm-ostree rebase ostree-image-signed:ghcr.io/fptbb/fp-os:latest
 ```
+After the command completes, reboot your system. You can check the status at any time with `sudo bootc status`.
 
-Then reboot. To check the status: `sudo bootc status`.
-An ISO can also be built (see building section) which uses a kickstart (`iso.toml`) to automatically rebase to this image upon installation.
+## Building from Source
 
-## <picture><img src="https://fonts.gstatic.com/s/e/notoemoji/latest/1f4da/webp/emoji_u1f4da.webp" alt="📚" width="22" height="22"></picture> Acknowledgements and Resources
+If you want to customize this image or build it yourself, you can use the provided `Justfile`.
 
-This project wouldn't be what it is without the inspiration and code from various other awesome projects and people in the community. Big thanks to:
+### Prerequisites
+*   A container runtime like [Podman](https://podman.io/).
+*   [Just](https://github.com/casey/just), a command runner.
 
-*   [**Venefilyn/veneos**](https://github.com/Venefilyn/veneos)
-*   [**astrovm/amyos**](https://github.com/astrovm/amyos)
-*   [**m2Giles/m2os**](https://github.com/m2Giles/m2os)
-*   [**ublue-os/bazzite**](https://github.com/ublue-os/bazzite)
-*   [**filotimo-project/filotimo**](https://github.com/filotimo-project/filotimo)
+### Build Instructions
+1.  **Clone the repository:**
+    ```bash
+    git clone https://github.com/Fptbb/fp-os.git
+    cd fp-os
+    ```
+2.  **Build the container image:**
+    ```bash
+    just build
+    ```
+3.  **(Optional) Build a bootable disk image:**
+    You can create an ISO, QCOW2, or other disk image formats.
+    ```bash
+    # Build an ISO for installation
+    just build-iso
 
-## <picture><img src="https://fonts.gstatic.com/s/e/notoemoji/latest/1f4c4/webp/emoji_u1f4c4.webp" alt="📄" width="22" height="22"></picture> License
+    # Build a QCOW2 image for use in VMs
+    just build-qcow2
+    ```
+    The generated images will be in the `output/` directory.
+
+### Container Signing
+This repository is configured for container signing with `cosign`. If you fork this project, it is highly recommended to set up your own signing keys to ensure the integrity of your images. For instructions, please refer to the `TUTORIAL.md` file in this repository.
+
+## Acknowledgements
+
+This project is made possible by the work of the open-source community. Special thanks to:
+
+*   The [Universal Blue](https://universal-blue.org/) project and all its contributors.
+*   The creators of the base images and templates.
+*   Inspiration from other custom OS projects like [VeneOS](https://github.com/Venefilyn/veneos), [amyos](https://github.com/astrovm/amyos), and [m2os](https://github.com/m2Giles/m2os).
+
+## License
 
 This project is licensed under the Apache License 2.0. See the [LICENSE](LICENSE) file for details.
