@@ -36,6 +36,7 @@ dnf5 install -y \
     gameconqueror \
     coreos-installer \
     linuxtoys \
+    scrcpy \
     android-tools \
     pmbootstrap \
     yt-dlp \
