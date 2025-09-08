@@ -43,7 +43,6 @@ dnf5 install -y \
     megatools
 
 
-
 systemctl enable nordvpnd
 systemctl enable tailscaled
 systemctl enable netbird

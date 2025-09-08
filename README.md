@@ -46,7 +46,7 @@ Website: [os.fpt.icu](https://os.fpt.icu)
 
 To switch an existing `bootc`-compatible system to this image (or to update it):
 ```bash
-sudo bootc switch ghcr.io/fptbb/fp-os:latest
+sudo rpm-ostree rebase ostree-image-signed:ghcr.io/fptbb/fp-os:latest
 ```
 
 Then reboot. To check the status: `sudo bootc status`.
