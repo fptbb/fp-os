@@ -6,7 +6,6 @@ dnf5 install -y \
     yadm \
     kleopatra \
     veracrypt \
-    tor \
     nordvpn \
     tailscale \
     netbird \
@@ -48,4 +47,3 @@ dnf5 install -y \
 systemctl enable nordvpnd
 systemctl enable tailscaled
 systemctl enable netbird
-systemctl enable tor

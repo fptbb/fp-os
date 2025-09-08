@@ -40,17 +40,6 @@ gpgkey=https://pkgs.netbird.io/yum/repodata/repomd.xml.key
 repo_gpgcheck=1
 EOF
 
-### Add Tor
-tee /etc/yum.repos.d/Tor.repo <<'EOF'
-[tor]
-name=Tor for Fedora $releasever - $basearch
-baseurl=https://rpm.torproject.org/fedora/$releasever/$basearch
-enabled=1
-gpgcheck=1
-gpgkey=https://rpm.torproject.org/fedora/public_gpg.key
-cost=100
-EOF
-
 ### Add COPR repos
 # enable_copr some/coprrepo
 enable_copr bigjapka/VeraCrypt
