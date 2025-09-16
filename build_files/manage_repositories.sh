@@ -42,6 +42,8 @@ EOF
 
 ### Add COPR repos
 # enable_copr some/coprrepo
+enable_copr fptbb/fp-os-meta
+
 enable_copr bigjapka/VeraCrypt
 enable_copr psygreg/linuxtoys
 enable_copr zeno/scrcpy

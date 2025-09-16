@@ -1,51 +1,19 @@
 #!/bin/bash
 set -ouex pipefail
 
-# this installs a package from fedora repos
+# this installs my meta package from fptbb/fp-os-meta copr
+dnf5 install -y fp-os-meta
+
+# this installs packages related to coprs and suse's obs.
 dnf5 install -y \
-    pam-u2f \
     yadm \
-    kleopatra \
     veracrypt \
     nordvpn \
     tailscale \
     netbird \
     netbird-ui \
-    gnome-disk-utility \
-    gnome-calculator \
-    kde-partitionmanager \
-    tmux \
-    kitty \
-    zsh \
-    powerline-fonts \
-    bash-completion \
-    code \
-    buildah \
-    git \
-    gnupg2 \
-    golang \
-    tinygo \
-    upx \
-    dialog \
-    rpm-build \
-    rpmdevtools \
-    copr-cli \
-    freerdp \
-    iproute \
-    libnotify \
-    libpcap \
-    netcat \
-    nmap-ncat \
-    freerdp \
-    gameconqueror \
-    coreos-installer \
     linuxtoys \
-    scrcpy \
-    android-tools \
-    pmbootstrap \
-    yt-dlp \
-    fuse-encfs \
-    megatools
+    scrcpy
 
 
 systemctl enable nordvpnd
