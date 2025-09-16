@@ -28,7 +28,7 @@ dnf5 install -y \
     upx \
     dialog \
     rpm-build \
-    rpm-build \
+    rpmdevtools \
     freerdp \
     iproute \
     libnotify \
