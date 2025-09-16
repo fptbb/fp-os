@@ -29,6 +29,7 @@ dnf5 install -y \
     dialog \
     rpm-build \
     rpmdevtools \
+    copr-cli \
     freerdp \
     iproute \
     libnotify \
