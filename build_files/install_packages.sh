@@ -27,6 +27,8 @@ dnf5 install -y \
     tinygo \
     upx \
     dialog \
+    rpm-build \
+    rpm-build \
     freerdp \
     iproute \
     libnotify \
