@@ -13,10 +13,9 @@ dnf5 install -y \
   netbird \
   netbird-ui \
   linuxtoys \
-  scrcpy \
-  megasync \
-  dolphin-megasync \
-  megacmd
+  scrcpy
+
+dnf5 install -y megacmd dolphin-megasync
 
 systemctl enable nordvpnd
 systemctl enable tailscaled
