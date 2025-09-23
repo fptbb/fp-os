@@ -15,8 +15,6 @@ dnf5 install -y \
   linuxtoys \
   scrcpy
 
-dnf5 install -y megacmd dolphin-megasync
-
 systemctl enable nordvpnd
 systemctl enable tailscaled
 systemctl enable netbird
