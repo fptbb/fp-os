@@ -4,27 +4,27 @@ set -ouex pipefail
 RELEASE="$(rpm -E %fedora)"
 
 enable_copr() {
-    repo="$1"
-    repo_with_dash="${repo/\//-}"
-    dnf5 config-manager addrepo \
-        --from-repofile="https://copr.fedorainfracloud.org/coprs/${repo}/repo/fedora-${RELEASE}/${repo_with_dash}-fedora-${RELEASE}.repo" \
-        --overwrite
+  repo="$1"
+  repo_with_dash="${repo/\//-}"
+  dnf5 config-manager addrepo \
+    --from-repofile="https://copr.fedorainfracloud.org/coprs/${repo}/repo/fedora-${RELEASE}/${repo_with_dash}-fedora-${RELEASE}.repo" \
+    --overwrite
 }
 
 enable_opensuse_bs() {
-    repo="$1" # format: where:namespace:project
-    dnf5 config-manager addrepo \
-        --from-repofile="https://download.opensuse.org/repositories/${repo}/Fedora_${RELEASE}/${repo}.repo" \
-        --overwrite
+  repo="$1" # format: where:namespace:project
+  dnf5 config-manager addrepo \
+    --from-repofile="https://download.opensuse.org/repositories/${repo}/Fedora_${RELEASE}/${repo}.repo" \
+    --overwrite
 }
 
 ### Add NordVPN repo
 dnf5 config-manager addrepo --id="nordvpn" \
-    --set=baseurl="https://repo.nordvpn.com/yum/nordvpn/centos/$(uname -m)" \
-    --set=enabled=1 \
-    --set=gpgkey="https://repo.nordvpn.com/gpg/nordvpn_public.asc" \
-    --set=gpgcheck=1 \
-    --overwrite
+  --set=baseurl="https://repo.nordvpn.com/yum/nordvpn/centos/$(uname -m)" \
+  --set=enabled=1 \
+  --set=gpgkey="https://repo.nordvpn.com/gpg/nordvpn_public.asc" \
+  --set=gpgcheck=1 \
+  --overwrite
 
 ### Add Tailscale repo
 dnf5 config-manager addrepo --from-repofile=https://pkgs.tailscale.com/stable/fedora/tailscale.repo --overwrite
@@ -38,6 +38,18 @@ enabled=1
 gpgcheck=0
 gpgkey=https://pkgs.netbird.io/yum/repodata/repomd.xml.key
 repo_gpgcheck=1
+EOF
+
+### Add MegaSync Repo
+rpm --import "https://mega.nz/linux/repo/Fedora_${RELEASE}/repodata/repomd.xml.key"
+
+tee /etc/yum.repos.d/megasync.repo <<EOF
+[MEGAsync]
+name=MEGAsync
+baseurl=https://mega.nz/linux/repo/Fedora_${RELEASE}/
+gpgkey=https://mega.nz/linux/repo/Fedora_${RELEASE}/repodata/repomd.xml.key
+gpgcheck=1
+enabled=1
 EOF
 
 ### Add COPR repos
